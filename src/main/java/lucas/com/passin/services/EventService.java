@@ -3,6 +3,7 @@ package lucas.com.passin.services;
 import lombok.RequiredArgsConstructor;
 import lucas.com.passin.domain.attendee.Attendee;
 import lucas.com.passin.domain.event.Event;
+import lucas.com.passin.domain.event.exceptions.EventNotFoundException;
 import lucas.com.passin.dto.event.EventDetailDTO;
 import lucas.com.passin.dto.event.EventIdDTO;
 import lucas.com.passin.dto.event.EventRequestDTO;
@@ -23,7 +24,7 @@ public class EventService {
     private final AttendeeRepository attendeRepository;
 
     public EventResponseDTO getEventDetail(String eventId){
-        Event event = this.eventRepository.findById(eventId).orElseThrow(() -> new RuntimeException("Event not found with ID:" + eventId));
+        Event event = this.eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException("Event not found with ID:" + eventId));
         List<Attendee> attendeeList = this.attendeRepository.findEventById(eventId);
         return new EventResponseDTO(event, attendeeList.size());
     }
