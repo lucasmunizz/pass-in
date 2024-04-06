@@ -21,7 +21,7 @@ public class AttendeeService {
     private final CheckinRepository checkinRepository;
 
     public List<Attendee> getAllAttendeesFromEvent(String eventId){
-        return this.attendeeRepository.findbyEventId(eventId);
+        return this.attendeeRepository.findByEventId(eventId);
     }
 
     public AttendeesListResponseDTO getEventsAttendee(String eventId){

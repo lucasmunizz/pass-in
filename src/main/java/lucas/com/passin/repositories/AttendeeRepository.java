@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface AttendeeRepository extends JpaRepository<Attendee, String> {
 
-    public List<Attendee> findbyEventId(String eventId);
+    public List<Attendee> findByEventId(String eventId);
 }
