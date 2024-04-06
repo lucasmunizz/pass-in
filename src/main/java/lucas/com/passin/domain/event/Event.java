@@ -20,15 +20,15 @@ public class Event {
     private String id;
 
     @Column(nullable = false)
-    private String name;
+    private String title;
 
     @Column(nullable = false)
-    private String detail;
+    private String details;
 
     @Column(nullable = false, unique = true)
     private String slug;
 
     @Column(nullable = false, name = "maximum_attendees")
-    private String maximumAttendees;
+    private Integer maximumAttendees;
 
 }

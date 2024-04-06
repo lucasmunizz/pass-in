@@ -1,7 +1,9 @@
 package lucas.com.passin.dto.event;
 
+import lombok.Getter;
 import lucas.com.passin.domain.event.Event;
 
+@Getter
 public class EventResponseDTO {
 
     EventDetailDTO event;
