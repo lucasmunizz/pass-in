@@ -2,13 +2,21 @@ package lucas.com.passin.domain.checkin;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lucas.com.passin.domain.attendee.Attendee;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "check_ins")
-public class Checkin {
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+public class CheckIn {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

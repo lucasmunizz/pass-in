@@ -8,9 +8,7 @@ import lucas.com.passin.dto.event.EventDetailDTO;
 import lucas.com.passin.dto.event.EventIdDTO;
 import lucas.com.passin.dto.event.EventRequestDTO;
 import lucas.com.passin.dto.event.EventResponseDTO;
-import lucas.com.passin.repositories.AttendeeRepository;
 import lucas.com.passin.repositories.EventRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.Normalizer;
@@ -21,11 +19,11 @@ import java.util.List;
 public class EventService {
 
     private final EventRepository eventRepository;
-    private final AttendeeRepository attendeRepository;
+    private final AttendeeService attendeeService;
 
     public EventResponseDTO getEventDetail(String eventId){
         Event event = this.eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException("Event not found with ID:" + eventId));
-        List<Attendee> attendeeList = this.attendeRepository.findEventById(eventId);
+        List<Attendee> attendeeList = this.attendeeService.getAllAttendeesFromEvent(eventId);
         return new EventResponseDTO(event, attendeeList.size());
     }
 
