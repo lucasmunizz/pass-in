@@ -2,6 +2,7 @@ package lucas.com.passin.services;
 
 import lombok.RequiredArgsConstructor;
 import lucas.com.passin.domain.attendee.Attendee;
+import lucas.com.passin.domain.attendee.exceptions.AttendeeAlreadyExistException;
 import lucas.com.passin.domain.checkin.CheckIn;
 import lucas.com.passin.dto.attendees.AttendeeDetails;
 import lucas.com.passin.dto.attendees.AttendeesListResponseDTO;
@@ -34,5 +35,18 @@ public class AttendeeService {
         }).toList();
 
         return new AttendeesListResponseDTO(attendeeDetailsList);
+    }
+
+    public void verifyAttendeeSubscription(String email, String eventId){
+        Optional<Attendee> isAttendeeRegistered = this.attendeeRepository.findByEventIdAndEmail(eventId, email);
+
+        if(isAttendeeRegistered.isPresent()) {
+            throw new AttendeeAlreadyExistException("Attendee is already registered");
+        }
+    }
+
+    public Attendee registerAteendee (Attendee newAttendee){
+        this.attendeeRepository.save(newAttendee);
+        return newAttendee;
     }
 }
