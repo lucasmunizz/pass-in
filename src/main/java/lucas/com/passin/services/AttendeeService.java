@@ -3,12 +3,16 @@ package lucas.com.passin.services;
 import lombok.RequiredArgsConstructor;
 import lucas.com.passin.domain.attendee.Attendee;
 import lucas.com.passin.domain.attendee.exceptions.AttendeeAlreadyExistException;
+import lucas.com.passin.domain.attendee.exceptions.AttendeeNotFoundException;
 import lucas.com.passin.domain.checkin.CheckIn;
+import lucas.com.passin.dto.attendees.AttendeeBadgeResponseDTO;
 import lucas.com.passin.dto.attendees.AttendeeDetails;
 import lucas.com.passin.dto.attendees.AttendeesListResponseDTO;
+import lucas.com.passin.dto.attendees.AttendeeBadgeDTO;
 import lucas.com.passin.repositories.AttendeeRepository;
 import lucas.com.passin.repositories.CheckinRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -48,5 +52,15 @@ public class AttendeeService {
     public Attendee registerAteendee (Attendee newAttendee){
         this.attendeeRepository.save(newAttendee);
         return newAttendee;
+    }
+
+    public AttendeeBadgeResponseDTO getAttendeeBadge(String attendeeId, UriComponentsBuilder uriComponentsBuilder) {
+        Attendee attendee = this.attendeeRepository.findById(attendeeId).orElseThrow(() -> new AttendeeNotFoundException("Attendee not found with ID: " + attendeeId));
+
+        var uri = uriComponentsBuilder.path("/attendees/{attendeeId}/check-in").buildAndExpand(attendeeId).toUri().toString();
+
+        AttendeeBadgeDTO attendeeBadgeDTO = new AttendeeBadgeDTO(attendee.getName(), attendee.getEmail(), uri, attendee.getEvent().getId());
+
+        return new AttendeeBadgeResponseDTO(attendeeBadgeDTO);
     }
 }
